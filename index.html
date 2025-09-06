@@ -137,16 +137,13 @@
 <header>
   Research Paper Request Community
 </header>
-
 <div id="user-count">
   People helped so far: 0
 </div>
-
 <div id="background-shapes">
   <div class="shape shape1"></div>
   <div class="shape shape2"></div>
 </div>
-
 <main>
   <form id="requestForm" action="https://formsubmit.co/researchvault.books@gmail.com" method="POST">
     <input type="hidden" name="_captcha" value="false" />
@@ -164,13 +161,10 @@
     <button type="submit" aria-label="Submit your research paper request">Submit Request</button>
   </form>
 </main>
-
 <div class="footer">
   &copy; 2025 Research Community | Made with care
 </div>
-
 <script>
-  // Animate background shapes responding to cursor and float
   const shapes = document.querySelectorAll('.shape');
   document.body.addEventListener('mousemove', e => {
     const x = e.clientX / window.innerWidth - 0.5;
@@ -204,7 +198,6 @@
   }
   floatShapes();
 
-  // Background gradient color animation
   const colors = [
     ['#6a11cb', '#2575fc'],
     ['#ff6a00', '#ee0979'],
@@ -276,7 +269,14 @@
   }
   updateCountDisplay();
 
-  document.getElementById('requestForm').addEventListener('submit', () => {
+  document.getElementById('requestForm').addEventListener('submit', (e) => {
+    const doi = document.getElementById('doi').value.trim();
+    const isbn = document.getElementById('isbn').value.trim();
+    if (!doi && !isbn) {
+      e.preventDefault();
+      alert('Please provide at least the Paper DOI or the Book ISBN-10.');
+      return;
+    }
     submissionCount++;
     localStorage.setItem('submissionCount', submissionCount);
     updateCountDisplay();
