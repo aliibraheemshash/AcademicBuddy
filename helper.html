@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Research Paper Request Community</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    transition: background 1s ease;
+  }
+  #background-shapes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    overflow: visible;
+    z-index: 0;
+  }
+  .shape {
+    position: absolute;
+    background-repeat: no-repeat;
+    background-size: contain;
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.2));
+    opacity: 0.15;
+    will-change: transform;
+    transition: transform 0.1s ease;
+  }
+  .shape.shape1 {
+    width: 300px;
+    height: 300px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="%23ffffff"><circle cx="40" cy="40" r="10"/><circle cx="60" cy="50" r="12"/><circle cx="50" cy="70" r="15"/></g></svg>');
+    top: 10%;
+    left: 20%;
+  }
+  .shape.shape2 {
+    width: 250px;
+    height: 250px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ffffff" d="M10 50 q40 20 80 0 q-20 60 -80 0"/></svg>');
+    bottom: 5%;
+    right: 15%;
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.15));
+    opacity: 0.1;
+  }
+
+  header {
+    background-color: rgba(0,0,0,0.3);
+    padding: 20px 0;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    position: relative;
+    z-index: 2;
+  }
+  #user-count {
+    text-align: center;
+    margin: 10px 0 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffd700;
+    position: relative;
+    z-index: 2;
+  }
+  main {
+    max-width: 500px;
+    margin: 0 auto 50px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 40px 35px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 3;
+    backdrop-filter: blur(10px);
+  }
+  label {
+    display: block;
+    margin-top: 20px;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #f0f0f0;
+  }
+  input[type="text"], input[type="email"] {
+    width: 100%;
+    padding: 12px 18px;
+    margin-top: 8px;
+    border-radius: 12px;
+    border: none;
+    font-size: 1.1rem;
+    color: #333;
+    background-color: #fff;
+    box-shadow: inset 2px 2px 6px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  input[type="text"]:focus, input[type="email"]:focus {
+    outline: none;
+    box-shadow: inset 3px 3px 10px rgba(0,0,0,0.15), 0 0 8px #2575fc;
+  }
+  button {
+    margin-top: 35px;
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    background: linear-gradient(45deg, #2575fc, #6a11cb);
+    box-shadow: 0 5px 15px rgba(38, 78, 211, 0.7);
+    transition: background 0.4s ease, box-shadow 0.4s ease;
+  }
+  button:hover {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    box-shadow: 0 7px 25px rgba(102, 52, 247, 0.85);
+  }
+  .footer {
+    text-align: center;
+    margin: 30px 0 15px;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.7);
+    position: relative;
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+<header>
+  Research Paper Request Community
+</header>
+<div id="user-count">
+  People helped so far: 0
+</div>
+<div id="background-shapes">
+  <div class="shape shape1"></div>
+  <div class="shape shape2"></div>
+</div>
+<main>
+  <form id="requestForm" 
+        action="https://formsubmit.co/alito.shash.1999@gmail.com" method="POST">
+    <input type="hidden" name="_captcha" value="false" />
+    <input type="hidden" name="_next" value="thank-you.html" />
+
+    <label for="email">Your Email <span style="color:#ffd700;">(to receive response)</span>:</label>
+    <input type="email" id="email" name="email" placeholder="example@example.com" required autocomplete="email" />
+
+    <label for="doi">Paper DOI <span style="color:#ffd700;">(or leave blank)</span>:</label>
+    <input type="text" id="doi" name="doi" placeholder="10.xxxx/xxxxx" autocomplete="off" />
+
+    <label for="title">Paper or Book Title <span style="color:#ffd700;">(if DOI unknown)</span>:</label>
+    <input type="text" id="title" name="title" placeholder="Enter title here" autocomplete="off" />
+
+    <label for="isbn">Book ISBN-10 (if applicable):</label>
+    <input type="text" id="isbn" name="isbn" placeholder="e.g. 1234567890" autocomplete="off" />
+
+    <label for="author">Author Name(s):</label>
+    <input type="text" id="author" name="author" placeholder="First Last" autocomplete="off" />
+
+    <button type="submit" aria-label="Submit your research paper request">Submit Request</button>
+  </form>
+</main>
+<div class="footer">
+  &copy; 2025 Research Community | Made with care
+</div>
+
+<script>
+  const shapes = document.querySelectorAll('.shape');
+
+  document.body.addEventListener('mousemove', e => {
+    const x = e.clientX / window.innerWidth - 0.5;
+    const y = e.clientY / window.innerHeight - 0.5;
+    shapes.forEach((shape, idx) => {
+      const movement = 30 + idx * 10;
+      const translateX = x * movement * (idx % 2 === 0 ? 1 : -1);
+      const translateY = y * movement * (idx % 2 === 0 ? 1 : -1);
+      shape.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
+    });
+  });
+
+  let angle = 0;
+  function floatShapes() {
+    angle += 0.01;
+    shapes.forEach((shape, idx) => {
+      const floatX = 5 * Math.sin(angle + idx);
+      const floatY = 5 * Math.cos(angle + idx);
+      let currentTransform = shape.style.transform || '';
+      const regex = /translate3d\(([^)]+)\)/;
+      let baseX = 0, baseY = 0;
+      const match = currentTransform.match(regex);
+      if (match) {
+        const [xStr, yStr] = match[1].split(',').map(s => parseFloat(s));
+        baseX = xStr;
+        baseY = yStr;
+        currentTransform = currentTransform.replace(regex, '');
+      }
+      shape.style.transform = `${currentTransform} translate3d(${baseX + floatX}px, ${baseY + floatY}px, 0)`;
+    });
+    requestAnimationFrame(floatShapes);
+  }
+  floatShapes();
+
+  const colors = [
+    ['#6a11cb', '#2575fc'],
+    ['#ff6a00', '#ee0979'],
+    ['#00b09b', '#96c93d'],
+    ['#845ec2', '#d65db1'],
+    ['#19b5fe', '#2b5876'],
+  ];
+  let colorIndex = 0;
+  let nextColorIndex = 1;
+  let step = 0;
+  const stepIncrement = 0.002;
+
+  function blendColors(c0, c1, t) {
+    const d = (c) => parseInt(c, 16);
+    const r = Math.round(d(c0.substr(1,2)) + t * (d(c1.substr(1,2)) - d(c0.substr(1,2))));
+    const g = Math.round(d(c0.substr(3,2)) + t * (d(c1.substr(3,2)) - d(c0.substr(3,2))));
+    const b = Math.round(d(c0.substr(5,2)) + t * (d(c1.substr(5,2)) - d(c0.substr(5,2))));
+    return `rgb(${r},${g},${b})`;
+  }
+
+  function updateBackground() {
+    step += stepIncrement;
+    if (step >= 1) {
+      step = 0;
+      colorIndex = nextColorIndex;
+      nextColorIndex = (nextColorIndex + 1) % colors.length;
+    }
+    const c0 = colors[colorIndex][0];
+    const c1 = colors[nextColorIndex][0];
+    const c2 = colors[colorIndex][1];
+    const c3 = colors[nextColorIndex][1];
+
+    const colorA = blendColors(c0, c1, step);
+    const colorB = blendColors(c2, c3, step);
+    document.body.style.background = `linear-gradient(135deg, ${colorA} 0%, ${colorB} 100%)`;
+    requestAnimationFrame(updateBackground);
+  }
+  updateBackground();
+
+  // Autofill from DOI on blur
+  async function fetchMetadataByDOI(doi) {
+    if (!doi) return;
+    const url = `https://api.crossref.org/works/${encodeURIComponent(doi)}`;
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('DOI not found');
+      const data = await response.json();
+      const item = data.message;
+
+      document.getElementById('title').value = item.title ? item.title[0] : '';
+
+      if (item.author && item.author.length > 0) {
+        const authors = item.author.map(a => `${a.given} ${a.family}`).join(', ');
+        document.getElementById('author').value = authors;
+      } else {
+        document.getElementById('author').value = '';
+      }
+    } catch (error) {
+      console.error('Error fetching metadata:', error);
+    }
+  }
+  document.getElementById('doi').addEventListener('blur', (e) => {
+    const doiInput = e.target.value.trim();
+    if (doiInput) {
+      fetchMetadataByDOI(doiInput);
+    }
+  });
+</script>
+</body>
+</html>
+
