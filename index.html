@@ -6,7 +6,6 @@
 <title>Research Paper Request Community</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
-
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #fff;
@@ -53,7 +52,6 @@
     filter: drop-shadow(0 0 6px rgba(255,255,255,0.15));
     opacity: 0.1;
   }
-
   header {
     background-color: rgba(0,0,0,0.3);
     padding: 20px 0;
@@ -139,44 +137,41 @@
 <header>
   Research Paper Request Community
 </header>
+
 <div id="user-count">
   People helped so far: 0
 </div>
+
 <div id="background-shapes">
   <div class="shape shape1"></div>
   <div class="shape shape2"></div>
 </div>
+
 <main>
-  <form id="requestForm" 
-        action="https://formsubmit.co/alito.shash.1999@gmail.com" method="POST">
+  <form id="requestForm" action="https://formsubmit.co/researchvault.books@gmail.com" method="POST">
     <input type="hidden" name="_captcha" value="false" />
     <input type="hidden" name="_next" value="thank-you.html" />
-
     <label for="email">Your Email <span style="color:#ffd700;">(to receive response)</span>:</label>
     <input type="email" id="email" name="email" placeholder="example@example.com" required autocomplete="email" />
-
     <label for="doi">Paper DOI <span style="color:#ffd700;">(or leave blank)</span>:</label>
     <input type="text" id="doi" name="doi" placeholder="10.xxxx/xxxxx" autocomplete="off" />
-
     <label for="title">Paper or Book Title <span style="color:#ffd700;">(if DOI unknown)</span>:</label>
     <input type="text" id="title" name="title" placeholder="Enter title here" autocomplete="off" />
-
     <label for="isbn">Book ISBN-10 (if applicable):</label>
     <input type="text" id="isbn" name="isbn" placeholder="e.g. 1234567890" autocomplete="off" />
-
     <label for="author">Author Name(s):</label>
     <input type="text" id="author" name="author" placeholder="First Last" autocomplete="off" />
-
     <button type="submit" aria-label="Submit your research paper request">Submit Request</button>
   </form>
 </main>
+
 <div class="footer">
   &copy; 2025 Research Community | Made with care
 </div>
 
 <script>
+  // Animate background shapes responding to cursor and float
   const shapes = document.querySelectorAll('.shape');
-
   document.body.addEventListener('mousemove', e => {
     const x = e.clientX / window.innerWidth - 0.5;
     const y = e.clientY / window.innerHeight - 0.5;
@@ -187,7 +182,6 @@
       shape.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
     });
   });
-
   let angle = 0;
   function floatShapes() {
     angle += 0.01;
@@ -210,6 +204,7 @@
   }
   floatShapes();
 
+  // Background gradient color animation
   const colors = [
     ['#6a11cb', '#2575fc'],
     ['#ff6a00', '#ee0979'],
@@ -221,7 +216,6 @@
   let nextColorIndex = 1;
   let step = 0;
   const stepIncrement = 0.002;
-
   function blendColors(c0, c1, t) {
     const d = (c) => parseInt(c, 16);
     const r = Math.round(d(c0.substr(1,2)) + t * (d(c1.substr(1,2)) - d(c0.substr(1,2))));
@@ -229,7 +223,6 @@
     const b = Math.round(d(c0.substr(5,2)) + t * (d(c1.substr(5,2)) - d(c0.substr(5,2))));
     return `rgb(${r},${g},${b})`;
   }
-
   function updateBackground() {
     step += stepIncrement;
     if (step >= 1) {
@@ -241,7 +234,6 @@
     const c1 = colors[nextColorIndex][0];
     const c2 = colors[colorIndex][1];
     const c3 = colors[nextColorIndex][1];
-
     const colorA = blendColors(c0, c1, step);
     const colorB = blendColors(c2, c3, step);
     document.body.style.background = `linear-gradient(135deg, ${colorA} 0%, ${colorB} 100%)`;
@@ -249,20 +241,17 @@
   }
   updateBackground();
 
-  // Autofill from DOI on blur
+  // Autofill form fields based on DOI
   async function fetchMetadataByDOI(doi) {
     if (!doi) return;
     const url = `https://api.crossref.org/works/${encodeURIComponent(doi)}`;
-
     try {
       const response = await fetch(url);
       if (!response.ok) throw new Error('DOI not found');
       const data = await response.json();
       const item = data.message;
-
       document.getElementById('title').value = item.title ? item.title[0] : '';
-
-      if (item.author && item.author.length > 0) {
+      if (item.author && item.author.length) {
         const authors = item.author.map(a => `${a.given} ${a.family}`).join(', ');
         document.getElementById('author').value = authors;
       } else {
@@ -278,7 +267,20 @@
       fetchMetadataByDOI(doiInput);
     }
   });
+
+  // Increment and display local submission count on form submit
+  const countEl = document.getElementById('user-count');
+  let submissionCount = Number(localStorage.getItem('submissionCount')) || 0;
+  function updateCountDisplay() {
+    countEl.textContent = `People helped so far: ${submissionCount}`;
+  }
+  updateCountDisplay();
+
+  document.getElementById('requestForm').addEventListener('submit', () => {
+    submissionCount++;
+    localStorage.setItem('submissionCount', submissionCount);
+    updateCountDisplay();
+  });
 </script>
 </body>
 </html>
-
