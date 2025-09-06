@@ -282,5 +282,50 @@
     updateCountDisplay();
   });
 </script>
+  <script>
+  const form = document.getElementById('requestForm');
+  const countEl = document.getElementById('user-count');
+  let submissionCount = Number(localStorage.getItem('submissionCount')) || 0;
+  function updateCountDisplay() {
+    countEl.textContent = `People helped so far: ${submissionCount}`;
+  }
+  updateCountDisplay();
+
+  form.addEventListener('submit', async function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    const doi = document.getElementById('doi').value.trim();
+    const isbn = document.getElementById('isbn').value.trim();
+
+    if (!doi && !isbn) {
+      alert('Please provide at least the Paper DOI or the Book ISBN-10.');
+      return;
+    }
+
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        alert('Request submitted successfully! We will respond as soon as possible.');
+        form.reset();          // Reset all form fields
+        submissionCount++;
+        localStorage.setItem('submissionCount', submissionCount);
+        updateCountDisplay();
+      } else {
+        alert('Oops! There was a problem submitting your request. Please try again.');
+      }
+    } catch (error) {
+      alert('Network error. Please check your connection and try again.');
+    }
+  });
+</script>
 </body>
 </html>
