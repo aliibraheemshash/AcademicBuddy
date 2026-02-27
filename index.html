@@ -1,346 +1,323 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Research Paper Request Community</title>
-    <!-- Tailwind CSS for rapid modern styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons for UI elements -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <style>
-        /* CSS-based Animated Gradient Background (Much better performance than JS) */
-        body {
-            background: linear-gradient(-45deg, #6a11cb, #2575fc, #845ec2, #ff9671);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow-x: hidden;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Research Paper Request Community</title>
+  <style>
+    /* Modern Sans-Serif Stack */
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+      /* Initial Background */
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+    #background-shapes {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-        /* Glassmorphism utilities */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
+    .shape {
+      position: absolute;
+      opacity: 0.12;
+      will-change: transform;
+      filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+    }
 
-        .glass-input {
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
+    .shape1 {
+      width: 350px; height: 350px;
+      top: 5%; left: 10%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="%23ffffff"><circle cx="40" cy="40" r="10"/><circle cx="60" cy="50" r="12"/><circle cx="50" cy="70" r="15"/></g></svg>') no-repeat;
+    }
 
-        .glass-input:focus {
-            background: #ffffff;
-            border-color: #6a11cb;
-            box-shadow: 0 0 0 4px rgba(106, 17, 203, 0.2);
-            outline: none;
-        }
+    .shape2 {
+      width: 300px; height: 300px;
+      bottom: 10%; right: 10%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ffffff" d="M10 50 q40 20 80 0 q-20 60 -80 0"/></svg>') no-repeat;
+    }
 
-        /* Floating Shapes */
-        .shape {
-            position: absolute;
-            background-repeat: no-repeat;
-            background-size: contain;
-            filter: drop-shadow(0 0 15px rgba(255,255,255,0.3));
-            opacity: 0.15;
-            z-index: 0;
-            pointer-events: none;
-            transition: transform 0.2s ease-out;
-        }
-        
-        /* Toast Animations */
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; transform: translateY(-10px); }
-        }
-        .toast-enter { animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .toast-exit { animation: fadeOut 0.3s ease forwards; }
-    </style>
+    header {
+      background-color: rgba(0,0,0,0.25);
+      padding: 25px 0;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+      backdrop-filter: blur(5px);
+    }
+
+    #user-count {
+      text-align: center;
+      margin: 15px 0;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #ffd700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      position: relative;
+      z-index: 2;
+    }
+
+    main {
+      width: 90%;
+      max-width: 480px;
+      margin: 0 auto 50px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 24px;
+      padding: 35px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      position: relative;
+      z-index: 3;
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+    }
+
+    .input-group { margin-bottom: 18px; }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #f8fafc;
+    }
+
+    .label-hint { color: #ffd700; font-weight: 400; font-size: 0.8rem; }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.9);
+      color: #1e293b;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #ffd700;
+      box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.2);
+    }
+
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 16px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      background: linear-gradient(45deg, #4f46e5, #9333ea);
+      box-shadow: 0 10px 20px rgba(79, 70, 229, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(79, 70, 229, 0.5);
+    }
+
+    button:active { transform: translateY(0); }
+
+    .footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 30px 0;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      z-index: 2;
+    }
+  </style>
 </head>
-<body class="text-white min-h-screen flex flex-col relative">
+<body>
 
-    <!-- Background Shapes -->
-    <div id="background-shapes" class="fixed inset-0 w-full h-full pointer-events-none overflow-hidden z-0">
-        <div class="shape w-64 h-64 top-10 left-10 md:top-[10%] md:left-[20%]" 
-             style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><g fill=%22%23ffffff%22><circle cx=%2240%22 cy=%2240%22 r=%2210%22/><circle cx=%2260%22 cy=%2250%22 r=%2212%22/><circle cx=%2250%22 cy=%2270%22 r=%2215%22/></g></svg>');">
-        </div>
-        <div class="shape w-80 h-80 bottom-5 right-5 md:bottom-[5%] md:right-[15%] opacity-10" 
-             style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><path fill=%22%23ffffff%22 d=%22M10 50 q40 20 80 0 q-20 60 -80 0%22/></svg>');">
-        </div>
+<div id="background-shapes">
+  <div class="shape shape1"></div>
+  <div class="shape shape2"></div>
+</div>
+
+<header>Research Vault</header>
+
+<div id="user-count">People helped so far: 0</div>
+
+<main>
+  <form id="requestForm" action="https://formsubmit.co/researchvault.books@gmail.com" method="POST">
+    <input type="hidden" name="_captcha" value="false" />
+    <input type="hidden" name="_template" value="table" />
+    <input type="hidden" name="_next" value="https://aliibraheemshash.github.io/thankyou.html" />
+
+    <div class="input-group">
+      <label for="email">Your Email <span class="label-hint">(Required)</span></label>
+      <input type="email" id="email" name="email" placeholder="example@example.com" required autocomplete="email" />
     </div>
 
-    <!-- Toast Notification Container -->
-    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3"></div>
+    <div class="input-group">
+      <label for="doi">Paper DOI <span class="label-hint">(Autofills Title)</span></label>
+      <input type="text" id="doi" name="doi" placeholder="10.xxxx/xxxxx" />
+    </div>
 
-    <header class="bg-black/30 py-6 px-4 text-center relative z-10 shadow-md">
-        <h1 class="text-3xl md:text-4xl font-bold tracking-tight">Research Vault Community</h1>
-        <p class="text-yellow-300 font-semibold mt-2 flex items-center justify-center gap-2">
-            <i data-lucide="users" class="w-5 h-5"></i>
-            <span id="user-count">People helped so far: 0</span>
-        </p>
-    </header>
+    <div class="input-group">
+      <label for="title">Paper or Book Title</label>
+      <input type="text" id="title" name="title" placeholder="Enter title" />
+    </div>
 
-    <main class="flex-grow flex items-center justify-center p-6 relative z-10">
-        <div class="glass-card w-full max-w-lg rounded-3xl p-8 shadow-2xl transform transition-all hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
-            
-            <div class="text-center mb-8">
-                <h2 class="text-2xl font-bold mb-2">Request a Paper or Book</h2>
-                <p class="text-white/80 text-sm">Fill out the details below. We'll find it and send it to your inbox.</p>
-            </div>
+    <div class="input-group">
+      <label for="isbn">Book ISBN-10</label>
+      <input type="text" id="isbn" name="isbn" placeholder="e.g. 1234567890" />
+    </div>
 
-            <form id="requestForm" action="https://formsubmit.co/researchvault.books@gmail.com" method="POST" class="space-y-5">
-                <!-- FormSubmit Configuration -->
-                <input type="hidden" name="_captcha" value="false" />
-                <input type="hidden" name="_next" value="https://aliibraheemshash.github.io/thankyou.html" />
+    <div class="input-group">
+      <label for="author">Author Name(s)</label>
+      <input type="text" id="author" name="author" placeholder="First Last" />
+    </div>
 
-                <!-- Email Field -->
-                <div>
-                    <label for="email" class="block text-sm font-semibold mb-1 text-white/90 flex justify-between">
-                        Your Email <span class="text-yellow-300 text-xs font-normal">(Required)</span>
-                    </label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                            <i data-lucide="mail" class="w-5 h-5"></i>
-                        </div>
-                        <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email" 
-                               class="glass-input w-full pl-10 pr-4 py-3 rounded-xl text-gray-900 shadow-inner" />
-                    </div>
-                </div>
+    <button type="submit" id="submitBtn">Submit Request</button>
+  </form>
+</main>
 
-                <!-- DOI Field -->
-                <div>
-                    <label for="doi" class="block text-sm font-semibold mb-1 text-white/90 flex justify-between">
-                        Paper DOI <span class="text-yellow-300 text-xs font-normal">(Auto-fills details)</span>
-                    </label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                            <i data-lucide="link" class="w-5 h-5"></i>
-                        </div>
-                        <input type="text" id="doi" name="doi" placeholder="10.xxxx/xxxxx" autocomplete="off" 
-                               class="glass-input w-full pl-10 pr-10 py-3 rounded-xl text-gray-900 shadow-inner" />
-                        <div id="doi-loading" class="absolute inset-y-0 right-0 pr-3 flex items-center hidden text-blue-500">
-                            <i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i>
-                        </div>
-                    </div>
-                </div>
+<div class="footer">
+  &copy; 2026 Research Community | Made with care
+</div>
 
-                <!-- Title Field -->
-                <div>
-                    <label for="title" class="block text-sm font-semibold mb-1 text-white/90">Paper or Book Title</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                            <i data-lucide="book-open" class="w-5 h-5"></i>
-                        </div>
-                        <input type="text" id="title" name="title" placeholder="Enter full title" autocomplete="off" 
-                               class="glass-input w-full pl-10 pr-4 py-3 rounded-xl text-gray-900 shadow-inner" />
-                    </div>
-                </div>
+<script>
+  // --- 1. BACKGROUND & SHAPE ANIMATION ---
+  const shapes = document.querySelectorAll('.shape');
+  let mouseX = 0, mouseY = 0;
+  let angle = 0;
 
-                <!-- Two Column Grid for ISBN and Author -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div>
-                        <label for="isbn" class="block text-sm font-semibold mb-1 text-white/90">ISBN-10 (Books)</label>
-                        <input type="text" id="isbn" name="isbn" placeholder="e.g. 1234567890" autocomplete="off" 
-                               class="glass-input w-full px-4 py-3 rounded-xl text-gray-900 shadow-inner" />
-                    </div>
-                    <div>
-                        <label for="author" class="block text-sm font-semibold mb-1 text-white/90">Author(s)</label>
-                        <input type="text" id="author" name="author" placeholder="First Last" autocomplete="off" 
-                               class="glass-input w-full px-4 py-3 rounded-xl text-gray-900 shadow-inner" />
-                    </div>
-                </div>
+  document.addEventListener('mousemove', e => {
+    mouseX = (e.clientX / window.innerWidth) - 0.5;
+    mouseY = (e.clientY / window.innerHeight) - 0.5;
+  });
 
-                <!-- Submit Button -->
-                <button type="submit" id="submitBtn" class="w-full mt-4 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg transform transition-all hover:scale-[1.02] hover:shadow-xl flex justify-center items-center gap-2">
-                    <i data-lucide="send" class="w-5 h-5"></i>
-                    <span>Submit Request</span>
-                </button>
-            </form>
-        </div>
-    </main>
+  function animate() {
+    angle += 0.015;
+    shapes.forEach((shape, idx) => {
+      const movement = 40 + (idx * 20);
+      const floatX = Math.sin(angle + idx) * 10;
+      const floatY = Math.cos(angle + idx) * 10;
 
-    <footer class="text-center py-6 text-white/70 text-sm relative z-10">
-        &copy; 2025 Research Vault Community | Built to help researchers
-    </footer>
+      const tx = (mouseX * movement) + floatX;
+      const ty = (mouseY * movement) + floatY;
 
-    <script>
-        // Initialize Lucide Icons
-        lucide.createIcons();
+      shape.style.transform = `translate3d(${tx}px, ${ty}px, 0) rotate(${angle * 5}deg)`;
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
 
-        // Custom Toast Notification System
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            
-            // Define colors and icons based on type
-            let bgColor = 'bg-white';
-            let textColor = 'text-gray-800';
-            let icon = '<i data-lucide="info" class="w-5 h-5 text-blue-500"></i>';
-            
-            if (type === 'success') {
-                icon = '<i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>';
-            } else if (type === 'error') {
-                icon = '<i data-lucide="alert-circle" class="w-5 h-5 text-red-500"></i>';
-                bgColor = 'bg-red-50';
-                textColor = 'text-red-800';
-            }
+  // --- 2. SMOOTH BACKGROUND COLOR BLENDING ---
+  const colors = [
+    ['#6a11cb', '#2575fc'], ['#ff6a00', '#ee0979'],
+    ['#00b09b', '#96c93d'], ['#845ec2', '#d65db1']
+  ];
+  let colorIdx = 0, nextIdx = 1, step = 0;
 
-            toast.className = `flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg border border-black/10 toast-enter ${bgColor} ${textColor} min-w-[250px] max-w-sm`;
-            toast.innerHTML = `
-                <div>${icon}</div>
-                <div class="font-medium text-sm flex-grow">${message}</div>
-                <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-gray-600 transition-colors">
-                    <i data-lucide="x" class="w-4 h-4"></i>
-                </button>
-            `;
+  function updateBg() {
+    step += 0.002;
+    if (step >= 1) {
+      step = 0;
+      colorIdx = nextIdx;
+      nextIdx = (nextIdx + 1) % colors.length;
+    }
+    const blend = (c1, c2, t) => {
+      const r = (h) => parseInt(h.slice(1, 3), 16);
+      const g = (h) => parseInt(h.slice(3, 5), 16);
+      const b = (h) => parseInt(h.slice(5, 7), 16);
+      const mix = (s, e) => Math.round(s + t * (e - s));
+      return `rgb(${mix(r(c1), r(c2))}, ${mix(g(c1), g(c2))}, ${mix(b(c1), b(c2))})`;
+    };
+    const cA = blend(colors[colorIdx][0], colors[nextIdx][0], step);
+    const cB = blend(colors[colorIdx][1], colors[nextIdx][1], step);
+    document.body.style.background = `linear-gradient(135deg, ${cA} 0%, ${cB} 100%)`;
+    requestAnimationFrame(updateBg);
+  }
+  updateBg();
 
-            container.appendChild(toast);
-            lucide.createIcons({ root: toast });
+  // --- 3. METADATA FETCHING ---
+  document.getElementById('doi').addEventListener('blur', async (e) => {
+    const doi = e.target.value.trim();
+    if (!doi) return;
+    try {
+      const response = await fetch(`https://api.crossref.org/works/${encodeURIComponent(doi)}`);
+      if (response.ok) {
+        const data = await response.json();
+        const item = data.message;
+        document.getElementById('title').value = item.title ? item.title[0] : '';
+        if (item.author) document.getElementById('author').value = item.author.map(a => `${a.given} ${a.family}`).join(', ');
+      }
+    } catch (err) { console.error('Metadata fetch failed'); }
+  });
 
-            // Auto remove after 5 seconds
-            setTimeout(() => {
-                if (toast.parentElement) {
-                    toast.classList.replace('toast-enter', 'toast-exit');
-                    setTimeout(() => toast.remove(), 300);
-                }
-            }, 5000);
-        }
+  // --- 4. SUBMISSION LOGIC ---
+  const form = document.getElementById('requestForm');
+  const countEl = document.getElementById('user-count');
+  let submissionCount = Number(localStorage.getItem('submissionCount')) || 0;
 
-        // Parallax Effect for Background Shapes
-        const shapes = document.querySelectorAll('.shape');
-        document.body.addEventListener('mousemove', e => {
-            const x = (e.clientX / window.innerWidth - 0.5) * 2;
-            const y = (e.clientY / window.innerHeight - 0.5) * 2;
-            
-            shapes.forEach((shape, idx) => {
-                const movement = 20 + (idx * 15);
-                const translateX = x * movement * (idx % 2 === 0 ? 1 : -1);
-                const translateY = y * movement * (idx % 2 === 0 ? 1 : -1);
-                shape.style.transform = `translate(${translateX}px, ${translateY}px)`;
-            });
-        });
+  function updateCount() { countEl.textContent = `People helped so far: ${submissionCount}`; }
+  updateCount();
 
-        // Autofill form fields based on DOI using Crossref API
-        async function fetchMetadataByDOI(doi) {
-            if (!doi) return;
-            
-            const loadingIcon = document.getElementById('doi-loading');
-            loadingIcon.classList.remove('hidden');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-            const url = `https://api.crossref.org/works/${encodeURIComponent(doi)}`;
-            
-            try {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error('DOI not found');
-                
-                const data = await response.json();
-                const item = data.message;
-                
-                if (item.title && item.title.length > 0) {
-                    document.getElementById('title').value = item.title[0];
-                }
-                
-                if (item.author && item.author.length > 0) {
-                    const authors = item.author.map(a => `${a.given || ''} ${a.family || ''}`.trim()).join(', ');
-                    document.getElementById('author').value = authors;
-                }
-                
-                showToast('Details auto-filled successfully!', 'success');
-            } catch (error) {
-                console.warn('Metadata fetch failed:', error);
-                // We don't show a blocking error, just a subtle notification so they can manual enter
-                showToast('Could not auto-fetch details. Please enter manually.', 'info');
-            } finally {
-                loadingIcon.classList.add('hidden');
-            }
-        }
+    const doi = document.getElementById('doi').value.trim();
+    const isbn = document.getElementById('isbn').value.trim();
+    const title = document.getElementById('title').value.trim();
 
-        // Trigger DOI lookup on blur (when user clicks away from the field)
-        document.getElementById('doi').addEventListener('blur', (e) => {
-            const doiInput = e.target.value.trim();
-            if (doiInput) {
-                fetchMetadataByDOI(doiInput);
-            }
-        });
+    if (!doi && !isbn && !title) {
+      alert('Please provide at least a DOI, ISBN, or Title.');
+      return;
+    }
 
-        // Local Storage Tracking for Counter
-        const countEl = document.getElementById('user-count');
-        let submissionCount = Number(localStorage.getItem('submissionCount')) || 0;
-        
-        function updateCountDisplay() {
-            countEl.textContent = `People helped so far: ${submissionCount}`;
-        }
-        updateCountDisplay();
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = "Sending Request...";
 
-        // Unified Form Submission Handler
-        const form = document.getElementById('requestForm');
-        const submitBtn = document.getElementById('submitBtn');
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
 
-        form.addEventListener('submit', async function(event) {
-            event.preventDefault(); // Prevent standard page redirect
-
-            const doi = document.getElementById('doi').value.trim();
-            const isbn = document.getElementById('isbn').value.trim();
-            const title = document.getElementById('title').value.trim();
-
-            // Validation: Require at least one identifying piece of info
-            if (!doi && !isbn && !title) {
-                showToast('Please provide a DOI, ISBN, or Title so we can find your request.', 'error');
-                return;
-            }
-
-            // UI feedback during submission
-            const originalBtnHtml = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i><span>Submitting...</span>';
-            submitBtn.disabled = true;
-            lucide.createIcons({ root: submitBtn });
-
-            try {
-                const formData = new FormData(form);
-                
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-
-                if (response.ok) {
-                    showToast('Request submitted successfully! We will email you soon.', 'success');
-                    form.reset();
-                    
-                    // Update local counter
-                    submissionCount++;
-                    localStorage.setItem('submissionCount', submissionCount);
-                    updateCountDisplay();
-                } else {
-                    throw new Error('Server responded with an error');
-                }
-            } catch (error) {
-                console.error('Submission error:', error);
-                showToast('Network error submitting request. Please try again.', 'error');
-            } finally {
-                // Restore button state
-                submitBtn.innerHTML = originalBtnHtml;
-                submitBtn.disabled = false;
-                lucide.createIcons({ root: submitBtn });
-            }
-        });
-    </script>
+      if (response.ok) {
+        alert('Request submitted! We will respond shortly.');
+        submissionCount++;
+        localStorage.setItem('submissionCount', submissionCount);
+        updateCount();
+        form.reset();
+      } else {
+        alert('Submission failed. Trying standard method...');
+        form.submit(); // Fallback to standard POST
+      }
+    } catch (err) {
+      form.submit(); // Fallback to standard POST
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Submit Request";
+    }
+  });
+</script>
 </body>
 </html>
